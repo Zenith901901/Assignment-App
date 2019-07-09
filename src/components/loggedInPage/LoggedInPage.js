@@ -1,14 +1,14 @@
 import React, { Component } from "react";
-import Board from "./Board";
-import Feed from "./Feed";
-import Bookmarks from "./Bookmarks";
+import Add from "./Add";
+import Public from "./Public";
+import Private from "./Private";
 import NavBar from "./NavBar";
 import Home from "./Home";
-import { Segment, Header } from "semantic-ui-react";
+import { Segment, Header, Container } from "semantic-ui-react";
 import Axios from "axios";
 
 class LoggedInPage extends Component {
-  state = { activeItem: "home", userData: {} };
+  state = { activeItem: "add", userData: {} };
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
@@ -30,10 +30,15 @@ class LoggedInPage extends Component {
 
   render() {
     const pageConfig = {
-      home: <Home />,
-      feed: <Feed />,
-      board: <Board />,
-      bookmarks: <Bookmarks />
+      add: (
+        <Add
+          _id={this.props._id}
+          dbUrl={this.props.dbUrl}
+          userInfo={this.userInfo}
+        />
+      ),
+      private: <Private />,
+      public: <Public />
     };
 
     this.userInfo();
@@ -54,10 +59,23 @@ class LoggedInPage extends Component {
         _id={this.props._id}
         dbUrl={this.props.dbUrl}
       >
-        {pageConfig[this.state.activeItem]}
+        <Container text>
+          <Segment
+            style={{
+              minHeight: 500,
+              // background: "AliceBlue",
+              marginTop: "4em"
+            }}
+            vertical
+            textAlign="center"
+          >
+            {pageConfig[this.state.activeItem]}
+          </Segment>
+        </Container>
         <Segment
-          style={{ minHeight: 300, background: "#1C1B23" }}
+          style={{ minHeight: 200, background: "#1C1B23" }}
           textAlign="center"
+          vertical
         >
           <Header inverted as="h1">
             Footer
