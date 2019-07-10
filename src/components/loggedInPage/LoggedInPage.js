@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import Add from "./Add";
-import Public from "./Public";
-import Private from "./Private";
+import Board from "./Board";
 import NavBar from "./NavBar";
 import Home from "./Home";
 import { Segment, Header, Container } from "semantic-ui-react";
-import Axios from "axios";
+import axios from "axios";
 
 class LoggedInPage extends Component {
   state = { activeItem: "add", userData: {} };
@@ -19,7 +18,8 @@ class LoggedInPage extends Component {
   };
 
   userInfo = () => {
-    Axios.get(`${this.props.dbUrl}/users/id/${this.props._id}`)
+    axios
+      .get(`${this.props.dbUrl}/users/id/${this.props._id}`)
       .then(res => {
         this.setUserData(res.data);
       })
@@ -30,21 +30,18 @@ class LoggedInPage extends Component {
 
   render() {
     const pageConfig = {
-      add: (
-        <Add
-          _id={this.props._id}
-          dbUrl={this.props.dbUrl}
-          userInfo={this.userInfo}
-        />
+      add: <Add _id={this.props._id} dbUrl={this.props.dbUrl} />,
+      private: (
+        <Board _id={this.props._id} type="private" dbUrl={this.props.dbUrl} />
       ),
-      private: <Private />,
-      public: <Public />
+      public: (
+        <Board _id={this.props._id} type="public" dbUrl={this.props.dbUrl} />
+      )
     };
 
     this.userInfo();
 
     const userData = this.state.userData;
-    console.log(userData);
 
     return (
       <NavBar
@@ -59,7 +56,7 @@ class LoggedInPage extends Component {
         _id={this.props._id}
         dbUrl={this.props.dbUrl}
       >
-        <Container text>
+        <Container>
           <Segment
             style={{
               minHeight: 500,
@@ -67,6 +64,7 @@ class LoggedInPage extends Component {
               marginTop: "4em"
             }}
             vertical
+            centered
             textAlign="center"
           >
             {pageConfig[this.state.activeItem]}

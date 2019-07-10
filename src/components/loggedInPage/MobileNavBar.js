@@ -83,39 +83,30 @@ const MobileNavBar = props => {
 
         <Menu.Item
           position="right"
-          name="home"
-          active={props.activeItem === "home"}
+          name="add"
+          active={props.activeItem === "add"}
           onClick={(e, { name }) => props.handleItemClick(e, { name })}
         >
-          <Icon name="home" />
-          Home
+          <Icon name="plus" />
+          add
         </Menu.Item>
 
         <Menu.Item
-          name="feed"
-          active={props.activeItem === "feed"}
+          name="private"
+          active={props.activeItem === "private"}
           onClick={(e, { name }) => props.handleItemClick(e, { name })}
         >
-          <Icon name="feed" />
-          Feed
+          <Icon name="clipboard list outline" />
+          Private
         </Menu.Item>
         <Menu.Item
-          name="board"
-          active={props.activeItem === "board"}
+          name="public"
+          active={props.activeItem === "public"}
           onClick={(e, { name }) => props.handleItemClick(e, { name })}
         >
           <Icon name="clipboard list" />
-          Board
+          Public
         </Menu.Item>
-        <Menu.Item
-          name="bookmarks"
-          active={props.activeItem === "bookmarks"}
-          onClick={(e, { name }) => props.handleItemClick(e, { name })}
-        >
-          <Icon name="bookmark" />
-          Bookmarks
-        </Menu.Item>
-
         <Menu.Item>
           {text}
           <Menu.Menu>

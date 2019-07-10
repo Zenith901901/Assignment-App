@@ -4,8 +4,8 @@ import LoggedInPage from "./loggedInPage/LoggedInPage";
 
 class App extends React.Component {
   state = {
-    isLoggedIn: "yes",
-    _id: "puru.gupta901@gmail.com",
+    isLoggedIn: "no",
+    _id: "5d2485cfefe2de25a9caedfe",
     dbUrl: "http://localhost:3000"
   };
 
