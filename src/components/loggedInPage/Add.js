@@ -120,6 +120,7 @@ class Add extends Component {
           if (typeof response.data === "string") {
             const messageList = this.state;
             messageList["errorMessage"] = "Invalid Url";
+            console.log("hey");
             this.setState({ errorMessage: true, messageList });
           } else {
             axios
