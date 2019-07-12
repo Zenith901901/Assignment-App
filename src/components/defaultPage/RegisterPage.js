@@ -155,6 +155,7 @@ class RegisterPage extends React.Component {
   onSignUpClick = () => {
     let getUrl = "";
     let postUrl = `${this.props.dbUrl}/users`;
+    console.log(postUrl);
     if (this.state.email === "") {
       getUrl = `${this.props.dbUrl}/users/nothing`;
     } else {
