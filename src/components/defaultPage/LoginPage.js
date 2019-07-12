@@ -75,9 +75,9 @@ class LoginPage extends Component {
   onLoginClick = () => {
     let url = "";
     if (this.state.email === "") {
-      url = `${this.props.dbUrl}/users/email/nothing`;
+      url = `${this.props.dbUrl}/users/nothing`;
     } else {
-      url = `${this.props.dbUrl}/users/email/${this.state.email}`;
+      url = `${this.props.dbUrl}/users/${this.state.email}`;
     }
     axios
       .get(url)

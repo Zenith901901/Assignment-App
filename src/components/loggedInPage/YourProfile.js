@@ -124,7 +124,7 @@ class YourProfile extends Component {
     this.validateForm("lastName");
     if (this.state.nameValid.firstName && this.state.nameValid.lastName) {
       axios
-        .get(`${this.props.dbUrl}/users/id/${this.props._id}`)
+        .get(`${this.props.dbUrl}/users/${this.props._id}`)
         .then(res => {
           let userData = res.data;
           userData["firstName"] = this.state.firstName;

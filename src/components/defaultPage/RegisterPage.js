@@ -156,9 +156,9 @@ class RegisterPage extends React.Component {
     let getUrl = "";
     let postUrl = `${this.props.dbUrl}/users`;
     if (this.state.email === "") {
-      getUrl = `${this.props.dbUrl}/users/email/nothing`;
+      getUrl = `${this.props.dbUrl}/users/nothing`;
     } else {
-      getUrl = `${this.props.dbUrl}/users/email/${this.state.email}`;
+      getUrl = `${this.props.dbUrl}/users/${this.state.email}`;
     }
     axios
       .get(getUrl)

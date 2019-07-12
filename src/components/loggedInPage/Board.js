@@ -26,7 +26,6 @@ const Board = props => {
   }, []);
 
   const creator = createdBy => {
-    console.log(createdBy);
     const data = userData.filter(obj => {
       return obj._id === createdBy;
     });
@@ -58,14 +57,13 @@ const Board = props => {
       >
         {response
           .filter(obj => {
-            // console.log(creator(obj.createdBy));
-
             if (props.type === "private") {
               return obj.type === props.type && obj.createdBy === props._id;
             } else {
               return obj.type === props.type;
             }
           })
+          .reverse()
           .map(obj => (
             <Grid.Column stretched>
               <Card

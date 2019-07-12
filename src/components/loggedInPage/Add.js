@@ -10,7 +10,8 @@ import {
   Image,
   Segment,
   Card,
-  Grid
+  Grid,
+  Loader
 } from "semantic-ui-react";
 import axios from "axios";
 
@@ -23,6 +24,7 @@ class Add extends Component {
     type: "public",
     successMessage: false,
     errorMessage: false,
+    isLoader: false,
     messageList: {
       errorMessage: "",
       successMessage: "Site added succesfully"
@@ -37,13 +39,12 @@ class Add extends Component {
       .get(`${this.props.dbUrl}/sites`)
       .then(response => {
         responseData = response.data;
-        this.setState({});
+        this.setState({ response: responseData });
         axios
           .get(`${this.props.dbUrl}/users/id/${this.props._id}`)
           .then(res => {
             data = res.data;
             this.setState({
-              response: responseData,
               userName: `${data["firstName"]} ${data["lastName"]}`
             });
           })
@@ -56,24 +57,9 @@ class Add extends Component {
       });
   }
 
-  // componentDidUpdate() {
-  //   axios
-  //     .get(`${this.props.dbUrl}/sites`)
-  //     .then(response => {
-  //       console.log(response.data);
-  //       if (
-  //         JSON.stringify(response.data) !== JSON.stringify(this.state.response)
-  //       ) {
-  //         this.setState({ response: response.data });
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // }
+  closeLoader = () => this.setState({ isLoader: false });
 
   validateForm = () => {
-    // let index = 0;
     const url = this.state.url;
     if (url.length === 0) {
       this.setState({
@@ -82,31 +68,21 @@ class Add extends Component {
         errorMessage: true
       });
     }
-    // else {
-    //   while (index < sites.length) {
-    //     if (sites[index] === url) {
-    //       urlValid = false;
-    //       urlError = "URL already added";
-    //       this.setState({ urlValid, urlError });
-    //       break;
-    //     }
-    //     index++;
-    //   }
-    // }
   };
 
   onAddContentClick = () => {
     //this.validateForm();
     const url = this.state.url;
-    if (url === "https://") {
+    if (url === "https://" || url === "") {
       this.setState({
         urlValid: false,
         urlError: "Please type the URL"
       });
 
       return;
+    } else {
+      this.setState({ isLoader: "true" });
     }
-
     if (this.state.urlValid === true) {
       const siteData = {
         url: this.state.url,
@@ -120,12 +96,16 @@ class Add extends Component {
           if (typeof response.data === "string") {
             const messageList = this.state;
             messageList["errorMessage"] = "Invalid Url";
-            console.log("hey");
-            this.setState({ errorMessage: true, messageList });
+            this.closeLoader();
+            this.setState({
+              errorMessage: true,
+              messageList
+            });
           } else {
             axios
               .get(`${this.props.dbUrl}/sites`)
               .then(response => {
+                this.closeLoader();
                 this.setState({
                   response: response.data,
                   successMessage: true,
@@ -147,6 +127,7 @@ class Add extends Component {
 
   formMessages = field => {
     if (this.state[field]) {
+      console.log(this.state.messageList[field]);
       return <List.Item> {this.state.messageList[field]}</List.Item>;
     }
   };
@@ -248,6 +229,11 @@ class Add extends Component {
             style={{ background: "teal", marginTop: "1.5em" }}
             disabled={!this.state.urlValid}
           />
+          <Loader
+            active={this.state.isLoader}
+            inline="centered"
+            style={{ marginTop: "1em" }}
+          />
           {this.messageSegment()}
           {this.formErrors()}
         </Container>
@@ -259,6 +245,7 @@ class Add extends Component {
           style={{ marginTop: "1em" }}
         >
           {this.state.response
+            .reverse()
             .filter(obj => {
               return obj.createdBy === this.props._id;
             })

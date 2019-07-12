@@ -9,7 +9,6 @@ import {
 } from "semantic-ui-react";
 import SearchBar from "./SearchBar";
 import PasswordChange from "./PasswordChange";
-import AddNewContent from "./AddNewContent";
 import YourProfile from "./YourProfile";
 
 const MobileNavBar = props => {
@@ -45,12 +44,6 @@ const MobileNavBar = props => {
     </span>
   );
 
-  const contentTrigger = (
-    <Menu.Item name="addNewContent">
-      <Icon name="plus" />
-      Add new content
-    </Menu.Item>
-  );
   const profileTrigger = (
     <Menu.Item name="yourProfile">
       <Icon name="user" />
@@ -110,12 +103,6 @@ const MobileNavBar = props => {
         <Menu.Item>
           {text}
           <Menu.Menu>
-            <AddNewContent
-              trigger={contentTrigger}
-              _id={props._id}
-              dbUrl={props.dbUrl}
-              userInfo={props.userInfo}
-            />
             <YourProfile
               trigger={profileTrigger}
               firstName={props.firstName}

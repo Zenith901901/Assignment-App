@@ -120,7 +120,7 @@ class PasswordChange extends Component {
 
   confirmConfirm = () => {
     axios
-      .get(`${this.props.dbUrl}/users/id/${this.props._id}`)
+      .get(`${this.props.dbUrl}/users/${this.props._id}`)
       .then(res => {
         let userData = res.data;
         userData["password"] = this.state.newPass;

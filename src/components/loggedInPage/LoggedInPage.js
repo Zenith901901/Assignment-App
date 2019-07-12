@@ -2,14 +2,19 @@ import React, { Component } from "react";
 import Add from "./Add";
 import Board from "./Board";
 import NavBar from "./NavBar";
-import Home from "./Home";
 import { Segment, Header, Container } from "semantic-ui-react";
 import axios from "axios";
 
 class LoggedInPage extends Component {
-  state = { activeItem: "add", userData: {} };
+  state = {
+    activeItem: localStorage.getItem("ActiveItem") || "add",
+    userData: {}
+  };
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+  handleItemClick = (e, { name }) => {
+    localStorage.setItem("ActiveItem", name);
+    this.setState({ activeItem: name });
+  };
 
   setUserData = userData => {
     if (JSON.stringify(userData) !== JSON.stringify(this.state.userData)) {
@@ -19,7 +24,7 @@ class LoggedInPage extends Component {
 
   userInfo = () => {
     axios
-      .get(`${this.props.dbUrl}/users/id/${this.props._id}`)
+      .get(`${this.props.dbUrl}/users/${this.props._id}`)
       .then(res => {
         this.setUserData(res.data);
       })

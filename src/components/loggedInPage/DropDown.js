@@ -1,7 +1,6 @@
 import React from "react";
 import { Dropdown, Divider } from "semantic-ui-react";
 import PasswordChange from "./PasswordChange";
-import AddNewContent from "./AddNewContent";
 import YourProfile from "./YourProfile";
 
 const DropDown = props => {
@@ -11,7 +10,6 @@ const DropDown = props => {
     </span>
   );
 
-  const contentTrigger = <Dropdown.Item icon="plus" text="Add New Content" />;
   const profileTrigger = <Dropdown.Item icon="user" text="Your Profile" />;
   const passwordTrigger = <Dropdown.Item icon="key" text="Change Password" />;
 
@@ -25,12 +23,6 @@ const DropDown = props => {
       <Dropdown.Menu>
         <Dropdown.Item text={text} disabled={true} />
         <Divider />
-        <AddNewContent
-          trigger={contentTrigger}
-          _id={props._id}
-          dbUrl={props.dbUrl}
-          userInfo={props.userInfo}
-        />
         <YourProfile
           trigger={profileTrigger}
           firstName={props.firstName}
