@@ -152,9 +152,45 @@ class RegisterPage extends React.Component {
     this.setState({ [field]: value, formValid });
   };
 
+  registerProcess = () => {
+    let postUrl = `${this.props.dbUrl}/users`;
+    this.validateForm("firstName");
+    this.validateForm("lastName");
+    this.validateForm("email");
+    this.validateForm("password");
+    this.validateForm("confirmPassword");
+    if (
+      this.state.formValid.email &&
+      this.state.formValid.password &&
+      this.state.formValid.firstName &&
+      this.state.formValid.lastName &&
+      this.state.formValid.confirmPassword
+    ) {
+      const firstNameStr = this.state.firstName.trim();
+      const lastNameStr = this.state.lastName.trim();
+      // str = str.replace(/\s+/g, " ").trim();
+      const userInput = {
+        firstName: firstNameStr,
+        lastName: lastNameStr,
+        email: this.state.email,
+        password: this.state.password
+      };
+      axios
+        .post(postUrl, userInput)
+        .then(response => {
+          userData = response.data;
+          this.props.userUpdater(userData["_id"]);
+          console.log(userData);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  };
+
   onSignUpClick = () => {
     let getUrl = "";
-    let postUrl = `${this.props.dbUrl}/users`;
+
     console.log(postUrl);
     if (this.state.email === "") {
       getUrl = `${this.props.dbUrl}/users/nothing`;
@@ -167,41 +203,14 @@ class RegisterPage extends React.Component {
         let userData = res.data;
         console.log(userData);
         this.setState({ userData });
-        this.validateForm("firstName");
-        this.validateForm("lastName");
-        this.validateForm("email");
-        this.validateForm("password");
-        this.validateForm("confirmPassword");
-        if (
-          this.state.formValid.email &&
-          this.state.formValid.password &&
-          this.state.formValid.firstName &&
-          this.state.formValid.lastName &&
-          this.state.formValid.confirmPassword
-        ) {
-          const firstNameStr = this.state.firstName.trim();
-          const lastNameStr = this.state.lastName.trim();
-          // str = str.replace(/\s+/g, " ").trim();
-          const userInput = {
-            firstName: firstNameStr,
-            lastName: lastNameStr,
-            email: this.state.email,
-            password: this.state.password
-          };
-          axios
-            .post(postUrl, userInput)
-            .then(response => {
-              userData = response.data;
-              this.props.userUpdater(userData["_id"]);
-              console.log(userData);
-            })
-            .catch(error => {
-              console.log(error);
-            });
-        }
+        this.registerProcess();
       })
       .catch(err => {
         console.log(err);
+        let userData = "";
+        console.log(userData);
+        this.setState({ userData });
+        this.registerProcess();
       });
   };
 

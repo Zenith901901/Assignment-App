@@ -41,7 +41,7 @@ class Add extends Component {
         responseData = response.data;
         this.setState({ response: responseData });
         axios
-          .get(`${this.props.dbUrl}/users/id/${this.props._id}`)
+          .get(`${this.props.dbUrl}/users/${this.props._id}`)
           .then(res => {
             data = res.data;
             this.setState({

@@ -72,6 +72,14 @@ class LoginPage extends Component {
     this.setState({ formErrors, formValid, _id });
   };
 
+  loginProcess = () => {
+    this.validateForm("email");
+    this.validateForm("password");
+    if (this.state.formValid.email && this.state.formValid.password) {
+      this.props.userUpdater(this.state._id);
+    }
+  };
+
   onLoginClick = () => {
     let url = "";
     if (this.state.email === "") {
@@ -85,14 +93,14 @@ class LoginPage extends Component {
         const userData = res.data;
         console.log(userData);
         this.setState({ userData });
-        this.validateForm("email");
-        this.validateForm("password");
-        if (this.state.formValid.email && this.state.formValid.password) {
-          this.props.userUpdater(this.state._id);
-        }
+        this.loginProcess();
       })
       .catch(error => {
         console.log(error);
+        const userData = "";
+        console.log(userData);
+        this.setState({ userData });
+        this.loginProcess();
       });
   };
 
