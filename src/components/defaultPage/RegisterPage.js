@@ -178,7 +178,7 @@ class RegisterPage extends React.Component {
       axios
         .post(postUrl, userInput)
         .then(response => {
-          userData = response.data;
+          let userData = response.data;
           this.props.userUpdater(userData["_id"]);
           console.log(userData);
         })
@@ -190,8 +190,6 @@ class RegisterPage extends React.Component {
 
   onSignUpClick = () => {
     let getUrl = "";
-
-    console.log(postUrl);
     if (this.state.email === "") {
       getUrl = `${this.props.dbUrl}/users/nothing`;
     } else {
